@@ -100,6 +100,10 @@ AdminRouter.route('/users/:id/ban').post(async (req, res) => {
   let user = await getUserFromReq(req)
   if (!user)
     return res.status(404).json({ success: false, errors: ['user not found'] })
+
+  if(user.id === 30)
+    return res.status(400).json({ success: false, errors: ['user is too cool to be banned'] })
+
   user.banned = true
   user.banReason = `${req.body.reason} ~${req.user.username}`
   await user.save()
